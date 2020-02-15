@@ -8,6 +8,7 @@ An app to share jokes and make other people laugh when they see your jokes.
 - ``` source .env/bin/activate ```
 - ``` pip3 install virtualenv ```
 - ``` pip3 install flask ```
+- ``` pip3 install peewee psycopg2```
 - ``` pip3 freeze > requirements.txt ```
 
 # How to use the app
