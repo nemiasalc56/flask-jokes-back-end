@@ -2,9 +2,17 @@
 
 An app to share jokes and make other people laugh when they see your jokes.
 
+## Installation
+
+- ``` virtualenv .env -p python3 ```
+- ``` source .env/bin/activate ```
+- ``` pip3 install virtualenv ```
+- ``` pip3 install flask ```
+- ``` pip3 freeze > requirements.txt ```
+
 # How to use the app
 
-* Register to have to the site
+* Register to have access to the site
 * Once registered, you can see all of the posts from other people. Just click one of the posts to see the joke.
 * You can post a joke.
 * You can also edit your joke or delete them.
