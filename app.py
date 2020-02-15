@@ -14,7 +14,13 @@ app = Flask(__name__)
 
 
 # using the blueprint to handle the horse stuff
-app.register_blueprint(jokes, url_prefix='/api/v1/jokes/')
+app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
+
+
+# create route to test the routes
+@app.route('/')
+def index():
+	return "route is working"
 
 
 # __name__ being '__main__' here means that we just ran this file

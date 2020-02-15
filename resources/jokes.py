@@ -9,8 +9,14 @@ from flask import Blueprint
 jokes = Blueprint('jokes', 'jokes')
 
 
-
-jokes.route('/')
+# this is goind to be the index route
+@jokes.route('/', methods=['GET'])
 def jokes_index():
 
 	return "jokes resource is working!"
+
+
+# create route
+@jokes.route('/', methods=['POST'])
+def create_joke():
+	return "you hit the craete route"
