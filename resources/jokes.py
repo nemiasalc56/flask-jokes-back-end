@@ -1,6 +1,6 @@
 import models
 
-from flask import Blueprint
+from flask import Blueprint, request
 
 
 
@@ -19,4 +19,6 @@ def jokes_index():
 # create route
 @jokes.route('/', methods=['POST'])
 def create_joke():
-	return "you hit the craete route"
+	payload = request.get_json()
+
+	return payload

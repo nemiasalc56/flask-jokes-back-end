@@ -1,5 +1,5 @@
 # jsonify lets us send JSON HTTP responses
-from flask import Flask
+from flask import Flask, jsonify, g
 import models
 from resources.jokes import jokes
 
@@ -15,6 +15,22 @@ app = Flask(__name__)
 
 # using the blueprint to handle the horse stuff
 app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
+
+
+
+# use this decorator to cause a function to run before request
+@app.before_request
+def before_request():
+	# store the data as a global variable in g
+	g.db = models.DATABASE
+	g.db.connect()
+
+
+# use this decorator to cause a function to run after request
+@app.after_request
+def after_request(response):
+	g.db.close()
+	return response
 
 
 # create route to test the routes
