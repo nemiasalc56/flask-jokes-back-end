@@ -16,8 +16,18 @@ jokes = Blueprint('jokes', 'jokes')
 # this is goind to be the index route
 @jokes.route('/', methods=['GET'])
 def jokes_index():
+	all_jokes_query = models.Joke.select()
+	joke_dicts = [model_to_dict(j) for j in all_jokes_query]
+	print(joke_dicts)
 
-	return "jokes resource is working!"
+
+	return jsonify(
+		data=joke_dicts,
+		message=f"Successfully retrieved {len(joke_dicts)} jokes!",
+		status=200
+		), 200
+
+
 
 
 # create route
@@ -32,15 +42,14 @@ def create_joke():
 		owner=payload['owner']
 		)
 
-	print(joke)
-	# print("")
-	# print(dir(joke))
-
 	joke_dict = model_to_dict(joke)
-	print("")
-	print(joke_dict)
+	
 
-	return jsonify(data=joke_dict, status={'message': 'Successfully created dog!'}), 201
+	return jsonify(
+		data=joke_dict,
+		message= "Successfully created dog!",
+		status=201
+		), 201
 
 
 
