@@ -1,6 +1,6 @@
 import models
 from flask import Blueprint, request, jsonify
-from flask_bcrypt import generate_password_hash
+from flask_bcrypt import generate_password_hash, check_password_hash
 from playhouse.shortcuts import model_to_dict
 from flask_login import login_user
 
@@ -70,6 +70,15 @@ def register():
 			), 201
 
 
+@users.route('/login', methods=['POST'])
+def login():
+	payload = request.get_json()
+	payload['username'] = payload['username'].lower()
+	payload['email'] = payload['email'].lower()
+	print(payload)
+
+
+	return "you hit the login route"
 
 
 
