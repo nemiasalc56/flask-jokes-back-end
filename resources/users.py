@@ -2,7 +2,7 @@ import models
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash, check_password_hash
 from playhouse.shortcuts import model_to_dict
-from flask_login import login_user
+from flask_login import login_user, current_user
 
 
 # make this a blueprint
@@ -115,5 +115,19 @@ def login():
 			data={},
 			message="Username or password is incorrect."
 			)
+
+
+# route to show the user that is logged in
+@users.route('/logged_in', methods=['GET'])
+def logged_in():
+	print(current_user)
+	print(type(current_user))
+
+	user_dict = model_to_dict(current_user)
+
+	return jsonify(
+		data=user_dict
+		), 200
+
 
 
