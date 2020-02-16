@@ -1,5 +1,5 @@
 import models
-
+from flask_login import current_user
 from flask import Blueprint, request, jsonify
 
 # some extra tool that we need from peewee
@@ -35,10 +35,12 @@ def create_joke():
 		title=payload['title'],
 		joke=payload['joke'],
 		# owner will be added later automatically with the user that is logged in
-		owner=payload['owner']
+		owner=current_user.id
 		)
 
 	joke_dict = model_to_dict(joke)
+	# remove password form the owner
+	joke_dict['owner'].pop('password')
 	
 	return jsonify(
 		data=joke_dict,
@@ -108,6 +110,4 @@ def delete_joke(id):
 		message=f"Successfully deleted a joke with the id {id}",
 		status=200
 		), 200
-
-
 
