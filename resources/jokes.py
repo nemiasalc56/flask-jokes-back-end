@@ -18,8 +18,6 @@ jokes = Blueprint('jokes', 'jokes')
 def jokes_index():
 	all_jokes_query = models.Joke.select()
 	joke_dicts = [model_to_dict(j) for j in all_jokes_query]
-	print(joke_dicts)
-
 
 	return jsonify(
 		data=joke_dicts,
@@ -33,15 +31,14 @@ def jokes_index():
 def create_joke():
 	payload = request.get_json()
 
-	print(payload['title'])
 	joke = models.Joke.create(
 		title=payload['title'],
 		joke=payload['joke'],
+		# owner will be added later automatically with the user that is logged in
 		owner=payload['owner']
 		)
 
 	joke_dict = model_to_dict(joke)
-	
 
 	return jsonify(
 		data=joke_dict,
@@ -65,6 +62,36 @@ def get_one_joke(id):
 		status=200
 		), 200
 
+
+# update route
+@jokes.route('/<id>', methods=['PUT'])
+def edit_joke(id):
+	payload = request.get_json()
+	print(payload)
+
+	# query the joke and updated
+	update_joke_query = models.Joke.update(
+		title=payload['title'],
+		joke=payload['joke'],
+		# owner will be added later automatically with the user that is logged in
+		owner=payload['owner']
+		# the one that has the same id
+		).where(models.Joke.id == id)
+	update_joke_query.execute()
+	print(update_joke_query)
+
+	# this is the joke that was updated
+	updated_joke = models.Joke.get_by_id(id)
+	print(updated_joke)
+
+	updated_joke_dict = model_to_dict(updated_joke)
+	print(updated_joke_dict)
+
+	return jsonify(
+		data=updated_joke_dict,
+		message=f"Successfully updated the joke with the id {updated_joke_dict['id']}",
+		status=200
+		), 200
 
 
 
