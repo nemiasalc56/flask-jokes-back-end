@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, g
 import models
 from resources.jokes import jokes
+from resources.users import users
 
 # this is the main tool for coordinating the login/session
 from flask_login import LoginManager
@@ -25,7 +26,7 @@ login_manager = LoginManager()
 
 # using the blueprint to handle the horse stuff
 app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
-
+app.register_blueprint(users, url_prefix='/api/v1/users')
 
 
 # use this decorator to cause a function to run before request
