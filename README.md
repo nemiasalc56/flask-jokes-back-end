@@ -10,7 +10,7 @@ An app to share jokes and make other people laugh when they see your jokes.
 - ```$ pip3 install flask ```
 - ```$ pip3 install peewee psycopg2```
 - ```$ pip3 freeze > requirements.txt```
-- ```$ pip3 install flask_login flask-bcrypt
+- ```$ pip3 install flask_login flask-bcrypt```
  
 # How to use the app
 

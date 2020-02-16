@@ -27,6 +27,18 @@ login_manager = LoginManager()
 # connect the app with the login_manager
 login_manager.init_app(app)
 
+# userloader will user this callback to load the user object
+@login_manager.user_loader
+def load_user(user_id):
+	try:
+		# look up user
+		return models.User.get(models.User.id == user_id)
+	except models.DoesNotExist:
+		return None
+
+
+
+
 # using the blueprint to handle the horse stuff
 app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
 app.register_blueprint(users, url_prefix='/api/v1/users')
