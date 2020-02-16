@@ -1,11 +1,12 @@
 # jsonify lets us send JSON HTTP responses
 from flask import Flask, jsonify, g
 import models
+# this is the main tool for coordinating the login/session
+from flask_login import LoginManager
+
 from resources.jokes import jokes
 from resources.users import users
 
-# this is the main tool for coordinating the login/session
-from flask_login import LoginManager
 
 
 
@@ -23,6 +24,8 @@ app.secret_key = "Secret keys are the best, only you know it."
 # instantiate LoginManager to a login_manager
 login_manager = LoginManager()
 
+# connect the app with the login_manager
+login_manager.init_app(app)
 
 # using the blueprint to handle the horse stuff
 app.register_blueprint(jokes, url_prefix='/api/v1/jokes')

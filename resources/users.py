@@ -2,6 +2,7 @@ import models
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash
 from playhouse.shortcuts import model_to_dict
+from flask_login import login_user
 
 
 # make this a blueprint
@@ -49,6 +50,10 @@ def register():
 			email=payload['email']
 			)
 		print("it is getting here")
+
+		# this logs in the user and starts a session
+		login_user(new_user)
+
 		# convert the data to a dictionary
 		user_dict = model_to_dict(new_user)
 		print(user_dict['password'])
@@ -63,5 +68,11 @@ def register():
 			message="Successfully created a user",
 			status=201
 			), 201
+
+
+
+
+
+
 
 
