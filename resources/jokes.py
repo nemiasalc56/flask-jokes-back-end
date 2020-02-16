@@ -39,7 +39,7 @@ def create_joke():
 		)
 
 	joke_dict = model_to_dict(joke)
-
+	
 	return jsonify(
 		data=joke_dict,
 		message= "Successfully created dog!",

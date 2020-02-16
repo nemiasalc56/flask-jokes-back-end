@@ -1,6 +1,7 @@
 import models
 from flask import Blueprint, request, jsonify
 from flask_bcrypt import generate_password_hash
+from playhouse.shortcuts import model_to_dict
 
 
 # make this a blueprint
@@ -39,6 +40,28 @@ def register():
 	# if we get the error, the user does not exist
 	# so can proceed
 	except models.DoesNotExist:
-		
+		# create user
+		new_user = models.User.create(
+			first_name=payload['first_name'],
+			last_name=payload['last_name'],
+			username=payload['username'],
+			password=generate_password_hash(payload['password']),
+			email=payload['email']
+			)
+		print("it is getting here")
+		# convert the data to a dictionary
+		user_dict = model_to_dict(new_user)
+		print(user_dict['password'])
 
-		return "user does not exist"
+		# we can't jsonify the password (generated_password_hash)
+		# and we don't need to send it, so we can remove it
+		user_dict.pop('password')
+
+		# return "user was created"
+		return jsonify(
+			data=user_dict,
+			message="Successfully created a user",
+			status=201
+			), 201
+
+
