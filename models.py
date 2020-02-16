@@ -27,7 +27,9 @@ class User(UserMixin, Model):
 class Joke(Model):
 	title = CharField()
 	joke = CharField()
-	owner = CharField()
+
+	# set up one to many relationship between jokes and user with the foreign key
+	owner = ForeignKeyField(User, backref='jokes')
 	created_at = DateTimeField(default=datetime.datetime.now)
 
 	# it gives our class instructions on how to connect to 
