@@ -5,12 +5,13 @@ An app to share jokes and make other people laugh when they see your jokes.
 ## Installation
 
 - ``` virtualenv .env -p python3 ```
-- ``` source .env/bin/activate ```
-- ``` pip3 install virtualenv ```
-- ``` pip3 install flask ```
-- ``` pip3 install peewee psycopg2```
-- ``` pip3 freeze > requirements.txt ```
-
+- ```$ source .env/bin/activate ```
+- ```$ pip3 install virtualenv ```
+- ```$ pip3 install flask ```
+- ```$ pip3 install peewee psycopg2```
+- ```$ pip3 freeze > requirements.txt```
+- ```$ pip3 install flask_login flask-bcrypt
+ 
 # How to use the app
 
 * Register to have access to the site

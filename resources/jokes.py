@@ -111,7 +111,3 @@ def delete_joke(id):
 
 
 
-
-
-
-
