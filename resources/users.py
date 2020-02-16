@@ -74,14 +74,46 @@ def register():
 def login():
 	payload = request.get_json()
 	payload['username'] = payload['username'].lower()
-	payload['email'] = payload['email'].lower()
 	print(payload)
 
 
-	return "you hit the login route"
+	try:
+		#look user up by username
+		user = models.User.get(models.User.username == payload['username'])
+		print(user)
+
+		# if that didn't cuase an error, let's check the password
+		user_dict = model_to_dict(user)
+
+		# check the password
+		passwor_is_good = check_password_hash(user_dict['password'], payload['password'])
+
+		if passwor_is_good:
+			# log the user in the app using flask
+			login_user(user)
+			user_dict.pop('password')
+
+			return jsonify(
+				data=user_dict,
+				message=f"Successfully looged in {user_dict['first_name']} {user_dict['last_name']}",
+				status=200
+				), 200
+		else:
+			print("password no good")
+
+			return jsonify(
+				data={},
+				message="Username or password is incorrect.",
+				status=401
+				), 401
 
 
 
+	except models.DoesNotExist:
 
+		return jsonify(
+			data={},
+			message="Username or password is incorrect."
+			)
 
 
