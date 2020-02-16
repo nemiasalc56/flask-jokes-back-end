@@ -28,8 +28,6 @@ def jokes_index():
 		), 200
 
 
-
-
 # create route
 @jokes.route('/', methods=['POST'])
 def create_joke():
@@ -50,6 +48,29 @@ def create_joke():
 		message= "Successfully created dog!",
 		status=201
 		), 201
+
+
+# show route
+@jokes.route('/<id>', methods=['GET'])
+def get_one_joke(id):
+	joke_query = models.Joke.get_by_id(id)
+	print(joke_query)
+
+	joke_dict = model_to_dict(joke_query)
+	print(joke_dict)
+
+	return jsonify(
+		data=joke_dict,
+		message=f"Successfully found joke with id {joke_dict['id']}",
+		status=200
+		), 200
+
+
+
+
+
+
+
 
 
 
