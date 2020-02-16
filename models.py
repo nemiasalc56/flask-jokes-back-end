@@ -10,8 +10,9 @@ DATABASE = SqliteDatabase('jokes.sqlite')
 
 # defining our joke model
 class Joke(Model):
-	title = CharField(),
-	joke = CharField(),
+	title = CharField()
+	joke = CharField()
+	owner = CharField()
 	created_at = DateTimeField(default=datetime.datetime.now)
 
 	# it gives our class instructions on how to connect to 

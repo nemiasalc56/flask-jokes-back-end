@@ -1,6 +1,10 @@
 import models
 
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
+
+# some extra tool that we need from peewee
+from playhouse.shortcuts import model_to_dict
+
 
 
 
@@ -21,4 +25,23 @@ def jokes_index():
 def create_joke():
 	payload = request.get_json()
 
-	return payload
+	print(payload['title'])
+	joke = models.Joke.create(
+		title=payload['title'],
+		joke=payload['joke'],
+		owner=payload['owner']
+		)
+
+	print(joke)
+	# print("")
+	# print(dir(joke))
+
+	joke_dict = model_to_dict(joke)
+	print("")
+	print(joke_dict)
+
+	return jsonify(data=joke_dict, status={'message': 'Successfully created dog!'}), 201
+
+
+
+
