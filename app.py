@@ -3,6 +3,10 @@ from flask import Flask, jsonify, g
 import models
 from resources.jokes import jokes
 
+# this is the main tool for coordinating the login/session
+from flask_login import LoginManager
+
+
 
 
 
@@ -11,6 +15,12 @@ PORT = 8000
 
 
 app = Flask(__name__)
+
+# set up a secret key
+app.secret_key = "Secret keys are the best, only you know it."
+
+# instantiate LoginManager to a login_manager
+login_manager = LoginManager()
 
 
 # using the blueprint to handle the horse stuff
