@@ -26,7 +26,7 @@ def jokes_index():
 		), 200
 
 
-# create route
+# create route GET
 @jokes.route('/', methods=['POST'])
 def create_joke():
 	payload = request.get_json()
@@ -47,7 +47,7 @@ def create_joke():
 		), 201
 
 
-# show route
+# show route GET
 @jokes.route('/<id>', methods=['GET'])
 def get_one_joke(id):
 	joke_query = models.Joke.get_by_id(id)
@@ -63,7 +63,7 @@ def get_one_joke(id):
 		), 200
 
 
-# update route
+# update route PUT
 @jokes.route('/<id>', methods=['PUT'])
 def edit_joke(id):
 	payload = request.get_json()
@@ -95,6 +95,19 @@ def edit_joke(id):
 
 
 
+# delete route DELETE
+@jokes.route('/<id>', methods=['Delete'])
+def delete_joke(id):
+	print(id)
+	# find and delete the joke with the id
+	delete_query = models.Joke.delete().where(models.Joke.id == id)
+	delete_query.execute()
+
+	return jsonify(
+		data={},
+		message=f"Successfully deleted a joke with the id {id}",
+		status=200
+		), 200
 
 
 
