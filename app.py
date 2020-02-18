@@ -36,7 +36,16 @@ def load_user(user_id):
 	except models.DoesNotExist:
 		return None
 
-
+# this is so that we can show a nice message instead of an error
+@login_manager.unauthorized_handler
+def unauthorized():
+	return jsonify(
+		data={
+		'erro': "User not logged in"
+		},
+		message="User must be logged in to access to that resource",
+		status=401
+		), 401
 
 
 # using the blueprint to handle the horse stuff
