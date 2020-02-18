@@ -3,9 +3,9 @@ from flask import Flask, jsonify, g
 import models
 # this is the main tool for coordinating the login/session
 from flask_login import LoginManager
-
 from resources.jokes import jokes
 from resources.users import users
+from flask_cors import CORS
 
 
 
@@ -47,6 +47,9 @@ def unauthorized():
 		status=401
 		), 401
 
+
+
+CORS(users, origings=['http://localhost:3000'], supports_credentials=True)
 
 # using the blueprint to handle the horse stuff
 app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
