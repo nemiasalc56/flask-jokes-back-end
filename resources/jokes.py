@@ -1,5 +1,5 @@
 import models
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask import Blueprint, request, jsonify
 
 # some extra tool that we need from peewee
@@ -15,6 +15,8 @@ jokes = Blueprint('jokes', 'jokes')
 
 # this is goind to be the index route
 @jokes.route('/', methods=['GET'])
+# this is so that only if you are logged in you have access to this route
+@login_required
 def jokes_index():
 	all_jokes_query = models.Joke.select()
 	joke_dicts = [model_to_dict(j) for j in all_jokes_query]
