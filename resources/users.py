@@ -162,5 +162,17 @@ def edit_user(id):
 	user = models.User.get_by_id(id)
 	print(user)
 
-	return "You hit the update route"
+	# update the info
+	user.first_name = payload['first_name']
+	user.last_name = payload['last_name']
+	user.password = payload['password']
+	user.email = payload['email']
+
+	# convert model to dictionary
+	user_dict = model_to_dict(user)
+	return jsonify(
+		data=user_dict,
+		message=f"Successfully update user.",
+		status=200
+		), 200
 
