@@ -176,3 +176,13 @@ def edit_user(id):
 		status=200
 		), 200
 
+
+# destroy route
+@users.route('/<id>', methods=['Delete'])
+def delete_user(id):
+	# find the user
+	print(id)
+	# delete user
+
+	return "You hit the delete route"
+

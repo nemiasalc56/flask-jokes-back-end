@@ -95,7 +95,7 @@ def edit_joke(id):
 		updated_joke_dict = model_to_dict(joke)
 		# remove the owner's password after updating
 		updated_joke_dict['owner'].pop('password')
-		
+
 		return jsonify(
 			data=updated_joke_dict,
 			message=f"Successfully updated the joke with the id {updated_joke_dict['id']}",
@@ -120,9 +120,6 @@ def edit_joke(id):
 @login_required
 def delete_joke(id):
 	print(id)
-	# find and delete the joke with the id
-	# delete_query = models.Joke.delete().where(models.Joke.id == id)
-	# delete_query.execute()
 
 	# find the joke
 	joke_to_delete = models.Joke.get_by_id(id)
