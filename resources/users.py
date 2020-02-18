@@ -181,8 +181,14 @@ def edit_user(id):
 @users.route('/<id>', methods=['Delete'])
 def delete_user(id):
 	# find the user
-	print(id)
+	user = models.User.get_by_id(id)
+	print(user)
 	# delete user
+	user.delete_instance()
 
-	return "You hit the delete route"
+	return jsonify(
+		data={},
+		message="Successfully delete user account.",
+		status=200
+		), 200
 
