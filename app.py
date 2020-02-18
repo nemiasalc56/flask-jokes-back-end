@@ -48,7 +48,7 @@ def unauthorized():
 		), 401
 
 
-
+CORS(jokes, origings=['http://localhost:3000'], supports_credentials=True)
 CORS(users, origings=['http://localhost:3000'], supports_credentials=True)
 
 # using the blueprint to handle the horse stuff
