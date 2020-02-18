@@ -93,7 +93,9 @@ def edit_joke(id):
 		joke.save()
 
 		updated_joke_dict = model_to_dict(joke)
-
+		# remove the owner's password after updating
+		updated_joke_dict['owner'].pop('password')
+		
 		return jsonify(
 			data=updated_joke_dict,
 			message=f"Successfully updated the joke with the id {updated_joke_dict['id']}",

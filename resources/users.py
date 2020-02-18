@@ -151,3 +151,16 @@ def logout():
 		message="The user was successfully logged out."
 		)
 
+# update route
+@users.route('/<id>', methods=['PUT'])
+def edit_user(id):
+	# get the info from the request
+	payload = request.get_json()
+	print(payload)
+
+	# find the user
+	user = models.User.get_by_id(id)
+	print(user)
+
+	return "You hit the update route"
+
