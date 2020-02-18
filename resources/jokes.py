@@ -75,33 +75,41 @@ def get_one_joke(id):
 
 # update route PUT
 @jokes.route('/<id>', methods=['PUT'])
+@login_required
 def edit_joke(id):
 	payload = request.get_json()
 	print(payload)
 
-	# query the joke and updated
-	update_joke_query = models.Joke.update(
-		title=payload['title'],
-		joke=payload['joke'],
-		# owner will be added later automatically with the user that is logged in
-		owner=payload['owner']
-		# the one that has the same id
-		).where(models.Joke.id == id)
-	update_joke_query.execute()
-	print(update_joke_query)
 
-	# this is the joke that was updated
-	updated_joke = models.Joke.get_by_id(id)
-	print(updated_joke)
+	# get the joke
+	joke = models.Joke.get_by_id(id)
 
-	updated_joke_dict = model_to_dict(updated_joke)
-	print(updated_joke_dict)
+	# see if the user matches
+	if current_user.id == joke.owner.id:
 
-	return jsonify(
-		data=updated_joke_dict,
-		message=f"Successfully updated the joke with the id {updated_joke_dict['id']}",
-		status=200
-		), 200
+		# update the info
+		joke.title = payload['title'] if 'title' in payload else None
+		joke.joke = payload['joke'] if 'joke' in payload else None
+		joke.save()
+
+		updated_joke_dict = model_to_dict(joke)
+
+		return jsonify(
+			data=updated_joke_dict,
+			message=f"Successfully updated the joke with the id {updated_joke_dict['id']}",
+			status=200
+			), 200
+
+	# if the user is not the owner
+	else:
+		# return you can only update your own jokes
+		return jsonify(
+			data={
+			'error': "Forbbiden"
+			},
+			message=f"Joke's owner_id ({joke.owner.id}) does not match the current user id ({current_user.id}. User can only update their jokes)",
+			status=403
+			), 403
 
 
 
