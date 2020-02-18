@@ -19,7 +19,11 @@ jokes = Blueprint('jokes', 'jokes')
 @login_required
 def jokes_index():
 	all_jokes_query = models.Joke.select()
+
+	# remove the password from the owner
 	joke_dicts = [model_to_dict(j) for j in all_jokes_query]
+	for joke in joke_dicts:
+		joke['owner'].pop('password')
 
 	return jsonify(
 		data=joke_dicts,
@@ -30,6 +34,7 @@ def jokes_index():
 
 # create route GET
 @jokes.route('/', methods=['POST'])
+@login_required
 def create_joke():
 	payload = request.get_json()
 
@@ -53,6 +58,7 @@ def create_joke():
 
 # show route GET
 @jokes.route('/<id>', methods=['GET'])
+@login_required
 def get_one_joke(id):
 	joke_query = models.Joke.get_by_id(id)
 	print(joke_query)
@@ -101,11 +107,21 @@ def edit_joke(id):
 
 # delete route DELETE
 @jokes.route('/<id>', methods=['Delete'])
+@login_required
 def delete_joke(id):
 	print(id)
 	# find and delete the joke with the id
-	delete_query = models.Joke.delete().where(models.Joke.id == id)
-	delete_query.execute()
+	# delete_query = models.Joke.delete().where(models.Joke.id == id)
+	# delete_query.execute()
+
+	# find the joke
+	joke_to_delete = models.Joke.get_by_id(id)
+	print(joke_to_delete)
+	# if the owner matches
+	if joke_to_delete.owner.id == current_user.id:
+		#delete the joke
+		joke_to_delete.delete_instance()
+
 
 	return jsonify(
 		data={},
