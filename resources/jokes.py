@@ -110,3 +110,11 @@ def delete_joke(id):
 		message=f"Successfully deleted a joke with the id {id}",
 		status=200
 		), 200
+
+# my jokes route
+@jokes.route('/mine', methods=['GET'])
+def my_jokes():
+
+	print(current_user)
+
+	return "you hit the my jokes route"
