@@ -115,6 +115,17 @@ def delete_joke(id):
 @jokes.route('/mine', methods=['GET'])
 def my_jokes():
 
-	print(current_user)
+	print(current_user.jokes)
+	# loop through the jokes in the current user
+	current_user_jokes = [model_to_dict(joke) for joke in current_user.jokes]
+	print(current_user_jokes)
+	
+	#remove the password
+	for joke in current_user_jokes:
+		joke['owner'].pop('password')
 
-	return "you hit the my jokes route"
+	return jsonify(
+		data=current_user_jokes,
+		message=f"Successfully retrieved {len(current_user_jokes)} jokes.",
+		status=200
+		), 200
