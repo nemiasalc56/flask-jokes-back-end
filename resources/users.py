@@ -28,13 +28,13 @@ def register():
 	try:
 		# check if the user already exists
 		# if they do, we won't create the user
-		models.User.get(models.User.email == payload['email'])
+		models.User.get(models.User.username == payload['username'])
 		# if the query doesn't cause an error, then the user exists
-		print(payload['email'])
+		print(payload['username'])
 
 		return jsonify(
 			data={},
-			message="A user with that email already exists",
+			message="A user with that username already exists",
 			status=401
 			), 401
 
@@ -148,8 +148,9 @@ def logout():
 	logout_user()
 	return jsonify(
 		data={},
-		message="The user was successfully logged out."
-		)
+		message="The user was successfully logged out.",
+		status=201
+		), 201
 
 # update route
 @users.route('/<id>', methods=['PUT'])

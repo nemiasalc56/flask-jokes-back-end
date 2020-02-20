@@ -48,12 +48,12 @@ def unauthorized():
 		), 401
 
 
-CORS(jokes, origings=['http://localhost:3000'], supports_credentials=True)
 CORS(users, origings=['http://localhost:3000'], supports_credentials=True)
+CORS(jokes, origings=['http://localhost:3000'], supports_credentials=True)
 
 # using the blueprint to handle the horse stuff
-app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
 app.register_blueprint(users, url_prefix='/api/v1/users')
+app.register_blueprint(jokes, url_prefix='/api/v1/jokes')
 
 
 # use this decorator to cause a function to run before request
