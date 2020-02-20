@@ -61,10 +61,8 @@ def create_joke():
 @login_required
 def get_one_joke(id):
 	joke_query = models.Joke.get_by_id(id)
-	print(joke_query)
 
 	joke_dict = model_to_dict(joke_query)
-	print(joke_dict)
 
 	return jsonify(
 		data=joke_dict,
@@ -78,8 +76,6 @@ def get_one_joke(id):
 @login_required
 def edit_joke(id):
 	payload = request.get_json()
-	print(payload)
-
 
 	# get the joke
 	joke = models.Joke.get_by_id(id)
@@ -119,11 +115,10 @@ def edit_joke(id):
 @jokes.route('/<id>', methods=['Delete'])
 @login_required
 def delete_joke(id):
-	print(id)
 
 	# find the joke
 	joke_to_delete = models.Joke.get_by_id(id)
-	print(joke_to_delete)
+
 	# if the owner matches
 	if joke_to_delete.owner.id == current_user.id:
 		#delete the joke
@@ -140,10 +135,8 @@ def delete_joke(id):
 @jokes.route('/mine', methods=['GET'])
 def my_jokes():
 
-	print(current_user.jokes)
 	# loop through the jokes in the current user
 	current_user_jokes = [model_to_dict(joke) for joke in current_user.jokes]
-	print(current_user_jokes)
 	
 	#remove the password
 	for joke in current_user_jokes:

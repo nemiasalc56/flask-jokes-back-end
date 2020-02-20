@@ -19,7 +19,6 @@ def test():
 @users.route('/register', methods=['POST'])
 def register():
 	payload = request.get_json()
-	print(payload)
 
 	# make username and email lowercase
 	payload['username'] = payload['username'].lower()
@@ -30,7 +29,6 @@ def register():
 		# if they do, we won't create the user
 		models.User.get(models.User.username == payload['username'])
 		# if the query doesn't cause an error, then the user exists
-		print(payload['username'])
 
 		return jsonify(
 			data={},
@@ -49,14 +47,13 @@ def register():
 			password=generate_password_hash(payload['password']),
 			email=payload['email']
 			)
-		print("it is getting here")
+		# print("it is getting here")
 
 		# this logs in the user and starts a session
 		login_user(new_user)
 
 		# convert the data to a dictionary
 		user_dict = model_to_dict(new_user)
-		print(user_dict['password'])
 
 		# we can't jsonify the password (generated_password_hash)
 		# and we don't need to send it, so we can remove it
@@ -74,13 +71,12 @@ def register():
 def login():
 	payload = request.get_json()
 	payload['username'] = payload['username'].lower()
-	print(payload)
 
 
 	try:
 		#look user up by username
 		user = models.User.get(models.User.username == payload['username'])
-		print(user)
+		# print(user)
 
 		# if that didn't cuase an error, let's check the password
 		user_dict = model_to_dict(user)
@@ -99,7 +95,6 @@ def login():
 				status=200
 				), 200
 		else:
-			print("password no good")
 
 			return jsonify(
 				data={},
@@ -113,16 +108,14 @@ def login():
 
 		return jsonify(
 			data={},
-			message="Username or password is incorrect."
-			)
+			message="Username or password is incorrect.",
+			status=401
+			), 401
 
 
 # route to show the user that is logged in
 @users.route('/logged_in', methods=['GET'])
 def logged_in():
-	print(current_user)
-	print(type(current_user))
-
 
 	if not current_user.is_authenticated:
 		return jsonify(
@@ -157,11 +150,11 @@ def logout():
 def edit_user(id):
 	# get the info from the request
 	payload = request.get_json()
-	print(payload)
+	# print(payload)
 
 	# find the user
 	user = models.User.get_by_id(id)
-	print(user)
+	# print(user)
 
 	# update the info
 	user.first_name = payload['first_name']
@@ -183,7 +176,7 @@ def edit_user(id):
 def delete_user(id):
 	# find the user
 	user = models.User.get_by_id(id)
-	print(user)
+
 	# delete user
 	user.delete_instance()
 
