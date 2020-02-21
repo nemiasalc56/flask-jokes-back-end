@@ -27,7 +27,7 @@ def register():
 	try:
 		# check if the user already exists
 		# if they do, we won't create the user
-		models.User.select(models.User.username == payload['username'] | models.User.email == payload['email'])
+		models.User.get((models.User.username == payload['username']) | (models.User.email == payload['email']))
 		
 		# if the doesn't cause an error, then the user exists
 
