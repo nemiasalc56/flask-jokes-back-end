@@ -1,3 +1,4 @@
+import os
 # jsonify lets us send JSON HTTP responses
 from flask import Flask, jsonify, g
 import models
@@ -70,11 +71,6 @@ def after_request(response):
 	g.db.close()
 	return response
 
-
-# create route to test the routes
-@app.route('/')
-def index():
-	return "route is working"
 
 
 # __name__ being '__main__' here means that we just ran this file
