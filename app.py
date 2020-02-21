@@ -71,7 +71,9 @@ def after_request(response):
 	g.db.close()
 	return response
 
-
+if 'ON_HEROKU' in os.environ: 
+  print('\non heroku!')
+  models.initialize()
 
 # __name__ being '__main__' here means that we just ran this file
 # as opposed to exporting i and importing it somewhere else
