@@ -16,7 +16,7 @@ class User(UserMixin, Model):
 	last_name = CharField()
 	username = CharField(unique=True)
 	password = CharField()
-	email = CharField()
+	email = CharField(unique=True)
 
 	class Meta:
 		database = DATABASE

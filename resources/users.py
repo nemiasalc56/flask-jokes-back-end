@@ -27,14 +27,16 @@ def register():
 	try:
 		# check if the user already exists
 		# if they do, we won't create the user
-		models.User.get(models.User.username == payload['username'])
-		# if the query doesn't cause an error, then the user exists
+		models.User.select(models.User.username == payload['username'] | models.User.email == payload['email'])
+		
+		# if the doesn't cause an error, then the user exists
 
+		# if what_was_found.username:
 		return jsonify(
 			data={},
-			message="A user with that username already exists",
+			message="A user with that username or email already exists",
 			status=401
-			), 401
+			), 200
 
 	# if we get the error, the user does not exist
 	# so can proceed
@@ -100,7 +102,7 @@ def login():
 				data={},
 				message="Username or password is incorrect.",
 				status=401
-				), 401
+				), 200
 
 
 
@@ -110,7 +112,7 @@ def login():
 			data={},
 			message="Username or password is incorrect.",
 			status=401
-			), 401
+			), 200
 
 
 # route to show the user that is logged in
